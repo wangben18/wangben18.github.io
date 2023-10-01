@@ -115,7 +115,7 @@ navbar:
 # Page footer configurations
 footer:
     # Copyright text
-    copyright: 用❤️发电
+    copyright:
     # Links to be shown on the right of the footer section
     links:
         Creative Commons:
@@ -241,9 +241,9 @@ widgets:
         follow_link: https://github.com/wangben18
         # Links to be shown on the bottom of the profile widget
         social_links:
-            Github:
-                icon: fab fa-github
-                url: https://github.com/wangben18
+            # Github:
+            #     icon: fab fa-github
+            #     url: https://github.com/wangben18
             # Facebook:
             #     icon: fab fa-facebook
             #     url: https://facebook.com
@@ -262,7 +262,7 @@ widgets:
         position: left
         type: toc
         # Whether to show the index of each heading
-        index: true
+        index: false
         # Whether to collapse sub-headings when they are out-of-view
         collapsed: true
         # Maximum level of headings to show (1-6)
@@ -284,12 +284,12 @@ widgets:
     # Recent posts widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: recent_posts
     # Archives widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
-        position: left
+        position: right
         type: archives
     # Tags widget configurations
     -
