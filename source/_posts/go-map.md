@@ -71,42 +71,32 @@ type bmap struct {
 
 这个就是 Go map 底层结构的部分源码了，业务代码中的每一个 map 底层对应的就是一个 hmap
 
-### 先看 hmap
-hmap 有个字段 buckets，这个字段的结构是一个指针，指向了一个数组，这个数组里的元素是啥呢？
-
-### bmap
-其实就是上面源码中的 bmap 结构，这个 bmap 里放的就是你存进 map 里的 key value 了，每个 bmap 里都可以保存 bucketCnt 个键值对
+hmap 有个字段 buckets，指向了 bmap 数组，bmap 里放的就是存进 map 里的 key value 了，每个 bmap 里都可以保存 bucketCnt 个键值对
 
 啥？你说这个 bmap 里不就一个 tophash 字段，哪有什么 key value？
 
 #### bmap 里 key value 在哪
-3，2，1 上源码！
 ``` Go
 k := add(unsafe.Pointer(b), dataOffset+i*uintptr(t.keysize))
 
 v := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.valuesize))
 ```
-key value 就是这么通过指针计算获取的，key value 数据就存在 tophash 的后边
+key value 是这样通过指针计算获取的，key value 数据存在 tophash 的后边（编译阶段会扩充 bmap 结构）
 
 ### 怎么知道数据放在哪个 bmap
-这时候就要说到 **hash** 值了
-
-``` Go
-hash := alg.hash(key, uintptr(h.hash0))
-```
-
-Go 就是用 hmap.hash0（创建 map 时生成的随机数） 和存进 map 的 key 进行哈希运算，相等的 key 和 hash0 每次运算得出的 **hash** 值也相等
-
-
-这个 **hash** 值可太有用了，map 就是用这个才实现出 O(1) 的时间复杂度
-
-### hash 值咋用
-再看下一行源码是 map 在决定数据放到哪个 bmap 时用的
+下一行源码是 map 在决定数据放到哪个 bucket 时用的
 ``` Go
 bucket := hash & bucketMask(h.B)
 ```
 
-#### bucketMask(h.B) 是啥
+#### hash
+``` Go
+hash := alg.hash(key, uintptr(h.hash0))
+```
+
+Go 用 hmap.hash0（创建 map 时生成的随机数） 和存进 map 的 key 进行哈希运算，相等的 key 和 hash0 每次运算得出的 **hash** 值也相等
+
+#### bucketMask()
 ``` Go
 // bucketMask returns 1<<b - 1, optimized for code generation.
 func bucketMask(b uint8) uintptr {
@@ -115,7 +105,7 @@ func bucketMask(b uint8) uintptr {
 ```
 bucketMask 做的操作就是把 1 按二进制左移 b 位后再减去 1，比如当传进来的 b 是 4，1 用二进制表示是 0b1，左移 4 位后就是 0b10000，再减去 1 就是 0b1111，名符其实，就是掩码
 
-#### h.B 是啥
+#### h.B
 h.B 就是 hmap 里的 B 字段，记录了 buckets 数组的长度信息。hmap.buckets 数组的长度是 2 的 hmap.B 次方
 
 如果 B 是 4，那么 buckets 数组的长度是 2 的 4 次方就是 16
