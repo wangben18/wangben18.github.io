@@ -232,7 +232,7 @@ widgets:
         # Author's current location
         location: 
         # URL or path to the avatar image
-        avatar: '/images/avatar.JPG'
+        avatar: '/images/avatar.jpg'
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar
