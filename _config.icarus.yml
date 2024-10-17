@@ -3,11 +3,11 @@ version: 5.1.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
 # Path or URL to the website's logo
-logo: /images/logo.svg
+logo:
 # Page metadata configurations
 head:
     # URL or path to the website's icon
-    favicon: /img/favicon.svg
+    favicon: /images/favicon.svg
     # Web application manifests configuration
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
@@ -42,7 +42,7 @@ head:
         title: 
         # Page type (og:type) (optional)
         # You should leave this blank for most of the time
-        type: blog
+        type:
         # Page URL (og:url) (optional)
         # You should leave this blank for most of the time
         url: 
@@ -118,6 +118,8 @@ footer:
     copyright:
     # Links to be shown on the right of the footer section
     links:
+        浙ICP备2024127621号:
+            url: http://beian.miit.gov.cn/
         Creative Commons:
             icon: fab fa-creative-commons
             url: https://creativecommons.org/
@@ -232,7 +234,7 @@ widgets:
         # Author's current location
         location: 
         # URL or path to the avatar image
-        avatar: '/images/avatar.jpg'
+        avatar: '/images/DayDream.png'
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar
